@@ -2,8 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 #conectando con la bd
 from bd_conexion import insertar_datos,actualizar_datos
-from time import strftime
-import pandas as pd
 
 class VentanaIngreso(tk.Toplevel):
     def __init__(self,master, productos=None):
@@ -58,7 +56,7 @@ class VentanaIngreso(tk.Toplevel):
     def guardar(self):
         nombre = self.entry_nombre.get()
         cantidad= int(self.entry_cantidad.get())
-        categoria = self(self.entry_categoria.get())
+        categoria = self.entry_categoria.get()
         proveedor = self.entry_proveedor.get()
 
         insertar_datos(nombre,cantidad,categoria,proveedor)
@@ -68,24 +66,9 @@ class VentanaIngreso(tk.Toplevel):
         id=self.productos[0]
         nombre = self.entry_nombre.get()
         cantidad= int(self.entry_cantidad.get())
-        categoria = self(self.entry_categoria.get())
+        categoria = self.entry_categoria.get()
         proveedor = self.entry_proveedor.get()
        
         actualizar_datos(id,nombre,cantidad,categoria,proveedor)
         self.destroy()
         
-
-
-'''   "
- def btn_Guardar(self):
-        nombre= self.entry_nombre.get()
-        cantidad=self.entry_cantidad.get()
-        categoria =  self.entry_categoria.get()
-        proveedor = self.entry_categoria.get()
-
-            
-            
-
-        tk.Button(self.frameB,text="Borrar", width=10,height=1).pack(side=tk.LEFT, padx=5)
-
-'''

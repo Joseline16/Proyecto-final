@@ -25,28 +25,30 @@ def insertar_datos(nombre,cantidad,categoria,proveedor):
         conn.commit()
         cursor.close()
 
-def mostrar_datos(filtro=None):
+def mostrar_datos(filtro):
         conn = conectar()
         cursor = conn.cursor()
         if filtro:
             cursor.execute("SELECT * FROM productos WHERE nombre LIKE ? OR  id=?", (f"%{filtro}%",filtro))
         else:
             cursor.execute("SELECT * FROM productos")
-            resultados = cursor.fetchall()
-            cursor.close()
-            return resultados 
 
-def eliminar_datos(nombre):
+        productos = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return productos 
+
+def eliminar_datos(id):
         try:
             conn = conectar()
             cursor  =conn.cursor()
-            bd ="DELETE FROM productos WHERE nombre = ?"
-            cursor.execute(bd,(nombre,))
+            cursor.execute("DELETE FROM productos WHERE id=?", (id,))
             conn.commit()
         except Exception as e:
             print(f"Error al eliminar el dato: {e}")
         finally:
             cursor.close()
+            conn.close()
 
 def actualizar_datos(id,nombre,cantidad,categoria,proveedor):
         try:
@@ -64,6 +66,7 @@ def actualizar_datos(id,nombre,cantidad,categoria,proveedor):
             return 0
         finally:
             cursor.close()
+            conn.close()
 
     
 
