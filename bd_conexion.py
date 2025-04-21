@@ -1,20 +1,7 @@
 import sqlite3
-import unittest
 def conectar():
     conn =sqlite3.connect('bd_inventario')
     return conn
-#conexion bd
-
-#cursor.execute('''CREATE TABLE IF NOT EXISTS productos ( 
- #          id INTEGER PRIMARY KEY AUTOINCREMENT, 
-  #           nombre TEXT,
-   #        cantidad INTEGER, 
-    #       categoría TEXT)''')
-
-#c= conexion.cursor()
-#c.execute("ALTER TABLE productos RENAME COLUMN 'categoría' TO 'categoria'")
-#c.close()
-
 
 def insertar_datos(nombre,cantidad,categoria,proveedor):
         conn = conectar()
@@ -44,8 +31,8 @@ def eliminar_datos(id):
             cursor  =conn.cursor()
             cursor.execute("DELETE FROM productos WHERE id=?", (id,))
             conn.commit()
-        except Exception as e:
-            print(f"Error al eliminar el dato: {e}")
+        except Exception as error:
+            print(f'Error al eliminar el dato: {error}')
         finally:
             cursor.close()
             conn.close()
@@ -55,14 +42,13 @@ def actualizar_datos(id,nombre,cantidad,categoria,proveedor):
             conn = conectar()
             cursor =conn.cursor()
             bd = '''UPDATE productos 
-            SET NOMBRE= ?, CANTIDAD = ?, CATEGORIA = ?,  PROVEEDOR = ?
-            WHERE ID = ? 
-            '''
+            SET NOMBRE= ?, CANTIDAD = ?, CATEGORIA = ?,  PROVEEDOR = ? WHERE ID = ? '''
+
             cursor.execute(bd,(nombre,cantidad,categoria,proveedor,id))
             conn.commit()
             return cursor.rowcount
-        except Exception as e:
-            print(f"error al actualizar el producto{e}")
+        except Exception as error:
+            print(f"error al actualizar el producto{error}")
             return 0
         finally:
             cursor.close()
@@ -70,14 +56,3 @@ def actualizar_datos(id,nombre,cantidad,categoria,proveedor):
 
     
 
-
-#prueba1.actualizar_datos(
-#    id=2,
-#    nombre="camisetos",
-#    cantidad=10,
-#   categoria="ropa",
-#    proveedor="josi")
-
-#datos = prueba1.mostrar_datos()
-#for fila in datos:
-#   print(fila)
